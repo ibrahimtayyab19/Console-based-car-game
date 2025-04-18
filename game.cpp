@@ -5,9 +5,8 @@ using namespace std;
 
 static int blink=0;
 const int MAX = 3;
-int helper = 9;
 int Random1[MAX] = {5,9,13};
-int Random2[MAX] = {13,9,5};
+int Random2[MAX] = {13,5,9};
 
 void start()
 {
@@ -36,6 +35,7 @@ void start()
         ch=getch();
         cout<<"\a";
 }
+
 class Car
 {
     private:
@@ -54,6 +54,7 @@ class Car
         const int min_X=2;
         const int max_X=14;
     public:
+  
         Car()
         {
             x=17;
@@ -66,6 +67,7 @@ class Car
             enemy2_X=1;
             enemy2_Y = (Random2[EnemyPos()]);
         }
+  
         void enemyForward()
         {
         	enemy_X+=1;
@@ -73,20 +75,12 @@ class Car
             enemyPass++;
             enemy2Pass++;
 		}
+  
         void forward()
         {
         	enemyForward();    
         }
-        void backward()
-        {
-            if(x<max_X)
-            {
-			    x++;
-                enemyForward();
-			}
-            else
-				cout << "\a" ;    
-        }  
+  
         void right()
         {
             if(y-3>min_Y)
@@ -97,6 +91,7 @@ class Car
 			else
 				cout << "\a" ;    
         }
+  
           void left()
         {
             if(y+3<max_Y)
@@ -107,30 +102,33 @@ class Car
  			else
 				cout << "\a" ;
         }
+  
         int EnemyPos()
         {
 			srand(time(NULL));
         	enemyPosition = rand() % 3;
         	return enemyPosition;
     	}
+  
     void road()
     {
+
 		if(enemyPass % 18 == 0)
 		{
 			score++;
 			enemy_Y = (Random1[EnemyPos()]); 
 	    	enemy_X = 1;
 	    	enemyPass = 1;
-	        helper = 0;
 		}
+
 		if(enemy2Pass % 10 == 0 )
 		{
-	    	helper = 0;
 			score++;
 			enemy2_Y = (Random2[EnemyPos()]); 
 	    	enemy2_X = 1;
             enemy2Pass = 1;
 		}
+
 		for (int i = 1; i<=18 ; i++)
     	{
 		    for(int j=1;j<=17;j++)
@@ -181,13 +179,14 @@ class Car
     		if(x == enemy_X && y == enemy_Y || x == enemy2_X && y == enemy2_Y )
 			{
     			cout<<"\"G A M E O V E R\"\a\n";
-			cout << "-----------------" << endl;
-			cout << "  S C O R E: \"" << score << "\"" << endl;
-    	    cout << "-----------------" << endl;
+				cout << "-----------------" << endl;
+				cout << "  S C O R E: \"" << score << "\"" << endl;
+    	   		cout << "-----------------" << endl;
 				exit(1);	
 				break;
 			}
 		}
+
     	static int scount=0;
         if(scount==0)
         {
@@ -203,33 +202,41 @@ class Car
 		}
 	}
 };
+
 int main()			
 {
 	char ch,s;
     Car c;
-    start();    
+    
+    start();   
+	 
 	do
 	{
 		blink++;		
-		system("cls");
+		system("cls"); //Use clrscr() if its not working
+		//        clrscr(); //Some compiler not supporting it
+	
 		c.road();
 		ch=getch();
-		if(ch=='w')
+		
+		if(ch=='w' || ch == 'W')
 			c.forward();
-		else if(ch=='s' || ch=='S')
-			c.backward();
 		else if(ch=='a' || ch=='A')
 			c.right();
 		else if(ch=='d' || ch=='D')
             c.left();
+            
 	}
 	while(ch!='e');
+	
     if(ch=='e')
     {
 //        clrscr(); //Some compiler not supporting it
-      	system("cls");
+		system("cls"); //Use clrscr() if its not working
 	    c.road();
         cout<<"\"G A M E O V E R\"\a\n";
+        cout << "\nYou Press E Exit Button\n";
     }
+    
 return 0;
 }
